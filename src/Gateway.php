@@ -5,6 +5,9 @@ namespace Omnipay\MyCard;
 
 use Omnipay\Common\AbstractGateway;
 use Omnipay\MyCard\Message\CompareTransaction;
+use Omnipay\MyCard\Message\FetchRequest;
+use Omnipay\MyCard\Message\NotificationRequest;
+use Omnipay\MyCard\Message\PurchaseRequest;
 
 class Gateway extends AbstractGateway
 {
@@ -60,21 +63,21 @@ class Gateway extends AbstractGateway
     }
 
 
-    public function purchase(array $parameters = array())
+    public function purchase(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\MyCard\Message\PurchaseRequest', $parameters);
+        return $this->createRequest(PurchaseRequest::class, $parameters);
     }
 
 
-    public function acceptNotification(array $parameters = array())
+    public function acceptNotification(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\MyCard\Message\NotificationRequest', $parameters);
+        return $this->createRequest(NotificationRequest::class, $parameters);
     }
 
 
-    public function fetchTransaction(array $parameters = array())
+    public function fetchTransaction(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\MyCard\Message\FetchRequest', $parameters);
+        return $this->createRequest(FetchRequest::class, $parameters);
     }
 
 

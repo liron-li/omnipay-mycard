@@ -3,13 +3,15 @@
 namespace Omnipay\MyCard\Message;
 
 
+use Omnipay\MyCard\Exception\DefaultException;
+
 class TokenRequest extends AbstractRequest
 {
-
 
     public function getToken()
     {
         $endpoint = $this->getEndpoint('b2b') . '/MyBillingPay/api/AuthGlobal';
+
         $requestData = [
             'FacServiceId' => $this->getAppId(),
             'FacTradeSeq'  => $this->getTransactionId(),
@@ -25,9 +27,14 @@ class TokenRequest extends AbstractRequest
             'Hash'         => $this->getSign('token'),
         ];
         $requestData = array_filter($requestData);
-        $httpRequest = $this->httpClient->post($endpoint, null, $requestData);
-        $httpResponse = $httpRequest->send();
+
+        $httpResponse = $this->httpClient->request('POST', $endpoint, [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ], json_encode($requestData));
+
         $body = json_decode($httpResponse->getBody(), true);
+
         if ($body['ReturnCode'] != 1) {
             throw new DefaultException($body['ReturnMsg']);
         }

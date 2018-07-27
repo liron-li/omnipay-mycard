@@ -10,6 +10,7 @@ class PurchaseRequest extends AbstractRequest
     {
         $token = new TokenRequest($this->httpClient, $this->httpRequest);
         $token->initialize($this->getParameters());
+
         $tokenData = $token->getToken();
         $this->setToken($tokenData['AuthCode']);
         $this->setTransactionReference($tokenData['TradeSeq']);

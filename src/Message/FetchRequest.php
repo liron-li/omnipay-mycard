@@ -4,6 +4,7 @@
 /**
  * 交易查询 @docs: 3.3
  */
+
 namespace Omnipay\MyCard\Message;
 
 
@@ -16,7 +17,12 @@ class FetchRequest extends AbstractRequest
         $requestData = [
             'AuthCode' => $this->getToken()
         ];
-        $response = $this->httpClient->post($endpoint, null, $requestData)->send();
+
+        $response = $this->httpClient->request('POST', $endpoint, [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ], json_encode($requestData));
+
         $data = json_decode($response->getBody(), true);
         return $data;
     }

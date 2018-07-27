@@ -16,7 +16,12 @@ class ConfirmRequest extends AbstractRequest
         $requestData = [
             'AuthCode' => $this->getToken()
         ];
-        $response = $this->httpClient->post($endpoint, null, $requestData)->send();
+
+        $response = $this->httpClient->request('POST', $endpoint, [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ], json_encode($requestData));
+
         $data = json_decode($response->getBody(), true);
         return $data;
     }
